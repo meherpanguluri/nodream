@@ -1,0 +1,56 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON manifests
+        run: |
+          set -e
+          for f in .claude-plugin/marketplace.json .claude-plugin/plugin.json .cursor-plugin/plugin.json gemini-extension.json; do
+            python3 -c "import json; json.load(open('$f'))"
+            echo "  $f: OK"
+          done
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          python3 - <<'PY'
+          import re, sys, pathlib
+          failed = False
+          for p in sorted(pathlib.Path('skills').glob('*/SKILL.md')):
+              c = p.read_text()
+              m = re.match(r'^---\n(.*?)\n---\n', c, re.DOTALL)
+              if not m:
+                  print(f"FAIL {p}: no frontmatter")
+                  failed = True
+                  continue
+              fm = m.group(1)
+              name_ok = bool(re.search(r'^name:\s*\S', fm, re.M))
+              desc_ok = bool(re.search(r'^description:\s*\S', fm, re.M))
+              if not name_ok:
+                  print(f"FAIL {p}: missing name field"); failed = True
+              if not desc_ok:
+                  print(f"FAIL {p}: missing description field"); failed = True
+              # name field must match parent dir per agentskills.io spec
+              m2 = re.search(r'^name:\s*(\S+)', fm, re.M)
+              if m2 and m2.group(1) != p.parent.name:
+                  print(f"FAIL {p}: name '{m2.group(1)}' does not match parent dir '{p.parent.name}'")
+                  failed = True
+              if name_ok and desc_ok and (not m2 or m2.group(1) == p.parent.name):
+                  print(f"OK   {p}")
+          sys.exit(1 if failed else 0)
+          PY
+
+      - name: Shellcheck install.sh
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq shellcheck
+          shellcheck install.sh

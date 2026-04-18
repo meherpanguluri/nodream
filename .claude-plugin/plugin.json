@@ -1,0 +1,21 @@
+{
+  "name": "nodream",
+  "version": "0.1.0",
+  "description": "Kills sycophancy, fake completion, and hallucination. Grounded agent or nothing.",
+  "author": {
+    "name": "meher panguluri",
+    "url": "https://github.com/meherpanguluri"
+  },
+  "homepage": "https://github.com/meherpanguluri/nodream",
+  "repository": "https://github.com/meherpanguluri/nodream",
+  "license": "MIT",
+  "keywords": [
+    "anti-sycophancy",
+    "grounded",
+    "no-hallucination",
+    "verification",
+    "honesty",
+    "discipline",
+    "truth"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "nodream",
+  "description": "Kills sycophancy, fake completion, hallucinated code, and dreamed research. Grounded agent or nothing.",
+  "version": "0.1.0",
+  "contextFileName": "GEMINI.md"
+}

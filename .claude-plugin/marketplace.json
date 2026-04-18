@@ -1,0 +1,29 @@
+{
+  "name": "nodream",
+  "owner": {
+    "name": "meher panguluri",
+    "url": "https://github.com/meherpanguluri"
+  },
+  "metadata": {
+    "description": "Self-hosted marketplace for the nodream plugin. Claude don't make shit up.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "nodream",
+      "source": "./",
+      "description": "Kills sycophancy, fake completion, and hallucination. Grounded Claude or nothing.",
+      "version": "0.1.0",
+      "category": "discipline",
+      "keywords": [
+        "anti-sycophancy",
+        "grounded",
+        "no-hallucination",
+        "verification",
+        "honesty",
+        "discipline"
+      ],
+      "strict": false
+    }
+  ]
+}
